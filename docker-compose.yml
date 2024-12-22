@@ -1,0 +1,49 @@
+services:
+  identity:
+    image: ghcr.io/tranduckhuy-test/identity-test:latest
+    container_name: identity
+    restart: always
+    ports:
+      - "9000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=identitydb;Database=IdentityDb;User=sa;Password=jC4-a66adsf;TrustServerCertificate=True;
+      - JWTSettings__SecretKey=HJZ8RPSBMLnyEyphoaia7tcNRDASAERSnuuhuyDF==
+      - JWTSettings__ValidIssuer=identity
+      - JWTSettings__ValidAudience=identity
+      - JWTSettings__ExpiryInMinutes=60
+      - EmailConfiguration__From=huytdqe170235@fpt.edu.vn
+      - EmailConfiguration__SmtpServer=smtp.gmail.com
+      - EmailConfiguration__Port=465
+      - EmailConfiguration__Username=TimeSwap
+      - EmailConfiguration__Password="viyn wzdf kvko ifsz"
+      - Redis__ConnectionString=redis:6379
+      - Redis__InstanceName=JWT_Blacklist_
+    depends_on:
+      - identitydb
+      - redis
+
+  identitydb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: identitydb
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=jC4-a66adsf
+    volumes:
+      - identity_db:/var/opt/mssql
+    ports:
+      - "1433:1433"
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: always
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+
+volumes:
+  identity_db:
+  redis_data:
