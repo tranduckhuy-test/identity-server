@@ -21,12 +21,14 @@ namespace IdentityServer.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IAuthService _authService;
         private readonly IEmailSender _emailSender;
+        private readonly ILogger<AccountsController> _logger;
 
-        public AccountsController(UserManager<User> userManager, IEmailSender emailSender, IAuthService authService)
+        public AccountsController(UserManager<User> userManager, IEmailSender emailSender, IAuthService authService, ILogger<AccountsController> logger)
         {
             _userManager = userManager;
             _emailSender = emailSender;
             _authService = authService;
+            _logger = logger;
         }
 
         [HttpPost("register")]
@@ -67,6 +69,8 @@ namespace IdentityServer.Controllers
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
 
             var message = MailMessageHelper.CreateMessage(newUser, token, request.ClientUri, "Confirm Email", "confirm your email");
+
+            _logger.LogInformation($"Sending email to {newUser.Email} to confirm email.");
 
             _ = _emailSender.SendEmailAsync(message);
 

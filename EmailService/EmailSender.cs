@@ -1,4 +1,5 @@
 ﻿using MailKit.Net.Smtp;
+using Microsoft.Extensions.Logging;
 using MimeKit;
 
 namespace EmailService
@@ -6,10 +7,12 @@ namespace EmailService
     public class EmailSender : IEmailSender
     {
         private readonly EmailConfiguration _emailConfiguration;
+        private readonly ILogger<EmailSender> _logger;
 
-        public EmailSender(EmailConfiguration emailConfiguration)
+        public EmailSender(EmailConfiguration emailConfiguration, ILogger<EmailSender> logger)
         {
             _emailConfiguration = emailConfiguration;
+            _logger = logger;
         }
 
         public async Task SendEmailAsync(Message message)
@@ -50,11 +53,30 @@ namespace EmailService
         {
             using var client = new SmtpClient();
 
-            await client.ConnectAsync(_emailConfiguration.SmtpServer, _emailConfiguration.Port, true);
-            client.AuthenticationMechanisms.Remove("XOAUTH2");
-            await client.AuthenticateAsync(_emailConfiguration.From, _emailConfiguration.Password);
-            await client.SendAsync(mailMessage);
-            await client.DisconnectAsync(true);
+            try
+            {
+                _logger.LogInformation("[EmailSender] Sending email...");
+                _logger.LogInformation($"[EmailSender] From: {mailMessage.From}");
+                _logger.LogInformation($"[EmailSender] Port: {_emailConfiguration.Port}");
+                _logger.LogInformation($"[EmailSender] Password: {_emailConfiguration.Password}");
+                _logger.LogInformation($"[EmailSender] SmtpServer: {_emailConfiguration.SmtpServer}");
+                _logger.LogInformation($"[EmailSender] UserName: {_emailConfiguration.UserName}");
+
+
+                await client.ConnectAsync(_emailConfiguration.SmtpServer, _emailConfiguration.Port, true);
+                client.AuthenticationMechanisms.Remove("XOAUTH2");
+                await client.AuthenticateAsync(_emailConfiguration.From, _emailConfiguration.Password);
+                await client.SendAsync(mailMessage);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while sending the email.");
+            }
+            finally
+            {
+                await client.DisconnectAsync(true);
+                client.Dispose();
+            }
         }
     }
 }
