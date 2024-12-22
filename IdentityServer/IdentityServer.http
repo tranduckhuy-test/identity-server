@@ -1,6 +1,82 @@
-@IdentityServer_HostAddress = http://localhost:5296
+@IdentityServer_HostAddress = https://localhost:7245
+@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZGVzdGlueWp1c3Rpc2FsaWVAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZGVzdGlueWp1c3Rpc2FsaWVAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiJlM2Q0ZDAwMy1lODYzLTQ4MTQtYTgxYi03NjA5YjMxMzFlZjUiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwiZXhwIjoxNzM0NjgzNjQzLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo1MDAxIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI0NSJ9.zppBJrutSDVclhzBsxtw95tdmMYu1mgncUo7ROGX8r8
 
-GET {{IdentityServer_HostAddress}}/weatherforecast/
+POST {{IdentityServer_HostAddress}}/api/accounts/register
 Accept: application/json
+Content-Type: application/json
+{
+  "firstName": "string",
+  "lastName": "string",
+  "email": "test@gmail.com",
+  "phoneNumber": "string",
+  "password": "string123@A",
+  "confirmPassword": "string123@A",
+  "clientUri": "https://localhost:7245/api/accounts/confirm-email"
+}
 
 ###
+
+POST {{IdentityServer_HostAddress}}/api/accounts/login
+Accept: application/json
+Content-Type: application/json
+{
+  "email": "test@gmail.com",
+  "password": "string123@A"
+}
+
+###
+POST {{IdentityServer_HostAddress}}/api/accounts/login
+Accept: application/json
+Content-Type: application/json
+{
+  "email": "huytde.dev@gmail.com",
+  "password": "Admin11@"
+}
+
+###
+POST {{IdentityServer_HostAddress}}/api/accounts/forgot-password
+Accept: application/json
+Content-Type: application/json
+{
+  "email": "test@gmail.com",
+  "clientUri": "https://localhost:7245/api/accounts/reset-password"
+}
+
+###
+POST {{IdentityServer_HostAddress}}/api/accounts/resend-confirmation-email
+Accept: application/json
+Content-Type: application/json
+{
+  "email": "test@gmail.com",
+  "clientUri": "https://localhost:7245/api/accounts/confirm-email"
+}
+
+###
+POST {{IdentityServer_HostAddress}}/api/accounts/refresh-token
+Accept: application/json
+Content-Type: application/json
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZGVzdGlueWp1c3Rpc2FsaWVAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZGVzdGlueWp1c3Rpc2FsaWVAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI0YmMwYjg3YS0yZjY3LTQwNjQtOGE4ZC1lMTk2NDMwNzQxMWEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwiZXhwIjoxNzM0NjcwMzM3LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo1MDAxIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI0NSJ9.k8JqSsTNRy-rXk_jwI96PL1xT82SDbw7yPEHQwK0ZCs",
+  "refreshToken": "leEQW6Wc/VetS5LAThSLylGbgwkwtjZdGrfiVCQyBONOjLcx2dbkpYgRzxcWvsZ47ACgtAt0yyckSRMrlgOiAg=="
+}
+
+###
+GET {{IdentityServer_HostAddress}}/api/test
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+###
+GET {{IdentityServer_HostAddress}}/api/test
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiaHV5dGRlLmRldkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJodXl0ZGUuZGV2QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiMjAzNTI4ZGUtM2Y2Yi00ZGJjLTgyMmQtODM1NDE3NmY3M2ZjIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3MzQ2ODM3NDQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjUwMDEiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjQ1In0.X8HqQm87F03F6U5DdUTE1n1pZRm82ccJQ4Y2dJDNank
+
+###
+DELETE {{IdentityServer_HostAddress}}/api/accounts/logout
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+
+###
+DELETE {{IdentityServer_HostAddress}}/api/accounts/logout
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiaHV5dGRlLmRldkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJodXl0ZGUuZGV2QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiMjAzNTI4ZGUtM2Y2Yi00ZGJjLTgyMmQtODM1NDE3NmY3M2ZjIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3MzQ2ODM3NDQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjUwMDEiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjQ1In0.X8HqQm87F03F6U5DdUTE1n1pZRm82ccJQ4Y2dJDNank
