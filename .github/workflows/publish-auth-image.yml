@@ -37,7 +37,7 @@ jobs:
 
       - name: Publish Identity image
         run: |
-          cd IdentityService
+          cp ./IdentityServer/Dockerfile .
           docker buildx build . \
             --tag ghcr.io/${{ github.repository_owner }}/identity-test:${{ steps.get_version.outputs.version }} \
             --tag ghcr.io/${{ github.repository_owner }}/identity-test:latest \
