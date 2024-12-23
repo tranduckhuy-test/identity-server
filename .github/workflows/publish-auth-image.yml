@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - Identity/**
+      - IdentityServer/**
 
 jobs:
   publish:
