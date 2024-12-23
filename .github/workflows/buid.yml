@@ -1,7 +1,10 @@
 name: Build Backend Project
 
 on:
-  [push, pull_request]:
+  push:
+    paths:
+      - HelloWorld/**
+  pull_request:
     paths:
       - HelloWorld/**
 
