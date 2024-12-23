@@ -7,16 +7,16 @@ services:
       - "9000:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=identitydb;Database=IdentityDb;User=sa;Password=jC4-a66adsf;TrustServerCertificate=True;
-      - JWTSettings__SecretKey=HJZ8RPSBMLnyEyphoaia7tcNRDASAERSnuuhuyDF==
-      - JWTSettings__ValidIssuer=identity
-      - JWTSettings__ValidAudience=identity
-      - JWTSettings__ExpiryInMinutes=60
-      - EmailConfiguration__From=huytdqe170235@fpt.edu.vn
+      - ConnectionStrings__DefaultConnection=Server=identitydb;Database=IdentityDb;User=sa;Password=${DB_PASSWORD};TrustServerCertificate=True;
+      - JWTSettings__SecretKey=${JWT_SECRET}
+      - JWTSettings__ValidIssuer=${JWT_ISSUER}
+      - JWTSettings__ValidAudience=${JWT_AUDIENCE}
+      - JWTSettings__ExpiryInMinutes=${JWT_EXPIRY}
+      - EmailConfiguration__From=${EMAIL_FROM}
       - EmailConfiguration__SmtpServer=smtp.gmail.com
       - EmailConfiguration__Port=465
       - EmailConfiguration__Username=TimeSwap
-      - EmailConfiguration__Password="viyn wzdf kvko ifsz"
+      - EmailConfiguration__Password=${EMAIL_PASSWORD}
       - Redis__ConnectionString=redis:6379
       - Redis__InstanceName=JWT_Blacklist_
     depends_on:

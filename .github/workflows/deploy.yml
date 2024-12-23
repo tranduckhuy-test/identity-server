@@ -1,0 +1,33 @@
+name: Deploy Identity to Server
+
+on:
+  workflow_run:
+    workflows: ["Publish Identity image"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    name: Deploy Identity to Server
+    runs-on: Linux
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Compose environment
+        run: |
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          echo "JWT_ISSUER=${{ secrets.JWT_ISSUER }}" >> .env
+          echo "JWT_AUDIENCE=${{ secrets.JWT_AUDIENCE }}" >> .env
+          echo "JWT_EXPIRY=${{ secrets.JWT_EXPIRY }}" >> .env
+          echo "EMAIL_FROM=${{ secrets.EMAIL_FROM }}" >> .env
+          echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> .env
+
+      - name: Deploy with Docker Compose
+        run: sudo docker-compose up --build -d
