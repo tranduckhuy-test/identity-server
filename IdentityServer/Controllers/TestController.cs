@@ -20,6 +20,6 @@ namespace IdentityServer.Controllers
         public IActionResult AdminAction() => Ok("Admin action");
 
         [HttpGet("user")]
-        public IActionResult UserAction() => Ok("User deploy action!");
+        public IActionResult UserAction() => Ok("User deploy action duoc diiii!");
     }
 }
