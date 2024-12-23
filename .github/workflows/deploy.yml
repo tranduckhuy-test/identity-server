@@ -2,7 +2,9 @@ name: Deploy Identity to Server
 
 on:
   workflow_run:
-    workflows: ["Publish Identity image"]
+    workflows:
+      - "Publish Identity image"
+      - "Publish Hello image"
     types:
       - completed
 

@@ -23,6 +23,15 @@ services:
       - identitydb
       - redis
 
+  helloworld:
+    image: ghcr.io/tranduckhuy-test/hello-test:latest
+    container_name: helloworld
+    restart: always
+    ports:
+      - "9001:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
   identitydb:
     image: mcr.microsoft.com/mssql/server:2019-latest
     container_name: identitydb

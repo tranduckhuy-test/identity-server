@@ -7,6 +7,8 @@ fi
 
 if [ "$1" -eq 1 ]; then
     CSPROJ_FILE="IdentityServer/IdentityServer.csproj"
+elif  [ "$1" -eq 2 ]; then
+    CSPROJ_FILE="HelloWorld/HelloWorld.csproj"
 else
     echo "Invalid option"
     exit 1

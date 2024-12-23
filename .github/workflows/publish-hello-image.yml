@@ -1,15 +1,15 @@
-name: Publish Identity image
+name: Publish Hello image
 
 on:
   push:
     branches:
       - master
     paths:
-      - Identity/**
+      - HelloWorld/**
 
 jobs:
   publish:
-    name: Publish Identity image
+    name: Publish Hello image
     runs-on: ubuntu-latest
 
     permissions:
@@ -27,7 +27,7 @@ jobs:
         id: get_version
         run: |
           chmod +x ./scripts/get-version.sh
-          VERSION=$(./scripts/get-version.sh 1)
+          VERSION=$(./scripts/get-version.sh 2)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Login to GitHub Container Registry
@@ -37,12 +37,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish Identity image
+      - name: Publish HelloWorld image
         run: |
-          cp ./IdentityServer/Dockerfile .
+          cp ./HelloWorld/Dockerfile .
           docker buildx build . \
-            --tag ghcr.io/${{ github.repository_owner }}/identity-test:${{ steps.get_version.outputs.version }} \
-            --tag ghcr.io/${{ github.repository_owner }}/identity-test:latest \
+            --tag ghcr.io/${{ github.repository_owner }}/hello-test:${{ steps.get_version.outputs.version }} \
+            --tag ghcr.io/${{ github.repository_owner }}/hello-test:latest \
             --platform=linux/amd64 \
             --push \
             --cache-from=type=local,src=/tmp/.buildx-cache \
