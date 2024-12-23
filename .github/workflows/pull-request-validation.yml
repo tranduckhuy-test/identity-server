@@ -31,6 +31,5 @@ jobs:
 
       - name: Comment and fail PR is targeting master
         run: |
-            echo "This PR is targeting the master branch."
-            exit 1
-          fi
+          echo "This PR is targeting the master branch."
+          exit 1
