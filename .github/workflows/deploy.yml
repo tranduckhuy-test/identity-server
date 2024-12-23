@@ -30,4 +30,4 @@ jobs:
           echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> .env
 
       - name: Deploy with Docker Compose
-        run: sudo docker-compose up --build -d
+        run: docker-compose up --build -d

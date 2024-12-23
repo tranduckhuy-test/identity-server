@@ -18,5 +18,8 @@ namespace IdentityServer.Controllers
         [HttpGet("admin")]
         [Authorize(Roles = "Admin")]
         public IActionResult AdminAction() => Ok("Admin action");
+
+        [HttpGet("user")]
+        public IActionResult UserAction() => Ok("User action");
     }
 }
