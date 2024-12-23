@@ -35,4 +35,6 @@ jobs:
         run: docker-compose pull
 
       - name: Deploy with Docker Compose
-        run: docker-compose up --build -d
+        run: |
+          docker-compose build --no-cache
+          docker-compose up -d
