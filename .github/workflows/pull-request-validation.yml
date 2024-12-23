@@ -1,0 +1,35 @@
+name: PR validation
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - reopened
+    branches:
+      - master
+
+jobs:
+  validate_pr:
+    name: PR validation
+    if: ${{ github.head_ref != 'dev' && !startsWith(github.head_ref, 'imgbot/') && !startsWith(github.head_ref, 'hotfix/') }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Add comment PR is targeting master
+        uses: peter-evans/create-or-update-comment@v4.0.0
+        with:
+          issue-number: ${{ github.event.number }}
+          body: |
+            Em vừa tạo pull request vào nhánh `master` đó.
+            Tạo pull request vào nhánh `dev` trước đi em.
+            Cảm ơn em! @${{ github.actor }}
+          reactions: eyes
+
+      - name: Comment and fail PR is targeting master
+        run: |
+          echo "This PR is targeting the master branch."
+          exit 1
