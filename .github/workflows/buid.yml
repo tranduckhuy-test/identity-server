@@ -25,4 +25,4 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build source code
-        run: dotnet build backend/backend.sln -c ${{ matrix.configuration }}
+        run: dotnet build IdentityServer.sln -c ${{ matrix.configuration }}
