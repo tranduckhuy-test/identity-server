@@ -23,8 +23,6 @@ services:
     image: ghcr.io/tranduckhuy-test/identity-test:latest
     container_name: identity
     restart: always
-    ports:
-      - "9000:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Server=identitydb;Database=IdentityDb;User=sa;Password=${DB_PASSWORD};TrustServerCertificate=True;
@@ -49,8 +47,6 @@ services:
     image: ghcr.io/tranduckhuy-test/hello-test:latest
     container_name: helloworld
     restart: always
-    ports:
-      - "9001:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
     networks:
@@ -76,8 +72,6 @@ services:
     restart: always
     volumes:
       - redis_data:/data
-    ports:
-      - "6379:6379"
     networks:
       - identity-network
 
@@ -88,8 +82,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
-    ports:
-      - "9002:9000"
     networks:
       - identity-network
 
