@@ -25,6 +25,7 @@ services:
     restart: always
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:9001
       - ConnectionStrings__DefaultConnection=Server=identitydb;Database=IdentityDb;User=sa;Password=${DB_PASSWORD};TrustServerCertificate=True;
       - JWTSettings__SecretKey=${JWT_SECRET}
       - JWTSettings__ValidIssuer=${JWT_ISSUER}
@@ -49,6 +50,7 @@ services:
     restart: always
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:9002
     networks:
       - identity-network
 
